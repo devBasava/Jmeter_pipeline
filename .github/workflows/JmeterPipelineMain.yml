@@ -24,7 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - uses: cilium/docker-run@v1.4.4
+      - uses: mosteo-actions/docker-run@v1
         with:
          image: grafana/jmeter:5.4.3
          args: echo "Running JMeter..."
