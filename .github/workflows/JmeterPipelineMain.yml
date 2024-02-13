@@ -33,6 +33,7 @@ jobs:
         with:
          testFilePath: ./DemoTest.jmx
          outputReportsFolder: reports
+         plugins:  https://jmeter-plugins.org/wiki/DummySampler/
          # Additional arguments here (optional)
 
 
