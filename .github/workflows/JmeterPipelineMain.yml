@@ -29,7 +29,7 @@ jobs:
        #  image: grafana/jmeter:5.4.3
        #  args: echo "Running JMeter..."
 
-      - uses: QAInsights/PerfAction@v5.6.2
+      - uses: rbhadti94/apache-jmeter-action@v0.7.0
         with:
          testFilePath: ./DemoTest.jmx
          outputReportsFolder: reports
