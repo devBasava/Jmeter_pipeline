@@ -107,46 +107,26 @@ jobs:
 
   
 
-      # - name: Install new JMeter jpgc-dummy Plugin
+      
+
+      # - name: Copy Test Files
       #   run: |
-      #     # Download the plugin directly from the Maven repository using a more reliable method
-      #     curl -o jpgc-dummy-0.4.jar https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-dummy/0.4/jmeter-plugins-dummy-0.4.jar
-      #     # Verify the JAR file integrity (optional, adds security)
-      #     # shasum -c jpgc-dummy-0.4.jar.sha1
-      #     # Install the plugin using PluginsManagerCMD with appropriate permissions
-      #     chmod +x ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh
-      #     ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install ./apache-jmeter-5.4.1/lib/ext/jpgc-dummy-0.4.jar
-      #     # Confirm installation
-      #     echo "jpgc-dummy plugin installed successfully."
-          
-      - name: Install jpgc-dummy Plugin
-        run: |
-          wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
-          unzip jpgc-dummy-0.4.zip
-          chmod +rx ./apache-jmeter-5.6.2/
-          cd ./apache-jmeter-5.6.2/bin/
-          java -jar ./apache-jmeter-5.6.2/lib/cmdrunner-2.3.jar --tool org.jmeterplugins.repository.PluginManagerCMD install jpgc-dummy-0.4.jar
-          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy-0.4.jar
-          echo "installation of plugin is complete"
+      #     cp your_test_plan.jmx jmeter/bin/
 
-      - name: Copy Test Files
-        run: |
-          cp your_test_plan.jmx jmeter/bin/
+      # - name: Run Test Plan
+      #   run: |
+      #     jmeter/bin/jmeter -n -t jmeter/bin/your_test_plan.jmx -l results.jtl
 
-      - name: Run Test Plan
-        run: |
-          jmeter/bin/jmeter -n -t jmeter/bin/your_test_plan.jmx -l results.jtl
+      # - name: Convert JTL to CSV
+      #   run: |
+      #     jmeter/bin/JMeterPluginsCMD --generate-csv results.csv --input-jtl results.jtl
 
-      - name: Convert JTL to CSV
-        run: |
-          jmeter/bin/JMeterPluginsCMD --generate-csv results.csv --input-jtl results.jtl
+      # - name: Analyze "error %" column
+      #   run: |
+      #     awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' results.csv > errors.txt
 
-      - name: Analyze "error %" column
-        run: |
-          awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' results.csv > errors.txt
-
-      - name: Upload Results (Optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-results
-          path: results.csv,errors.txt
+      # - name: Upload Results (Optional)
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: jmeter-results
+      #     path: results.csv,errors.txt
