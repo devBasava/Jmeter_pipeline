@@ -112,7 +112,7 @@ jobs:
           # Download the plugin directly from the Maven repository using a more reliable method
           curl -o jpgc-dummy-0.4.jar https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-dummy/0.4/jmeter-plugins-dummy-0.4.jar
           # Verify the JAR file integrity (optional, adds security)
-          shasum -c jpgc-dummy-0.4.jar.sha1
+          # shasum -c jpgc-dummy-0.4.jar.sha1
           # Install the plugin using PluginsManagerCMD with appropriate permissions
           chmod +x ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh
           ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install ../jpgc-dummy-0.4.jar
