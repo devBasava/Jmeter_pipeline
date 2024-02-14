@@ -12,7 +12,7 @@ jobs:
 
       - name: Install JMeter
         run: |
-          wget https://dlcdn.apache.org/jmeter/5.5.1/ApacheJMeter.tgz
+          wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz
           tar -xf ApacheJMeter.tgz
           mv ApacheJMeter-5.5.1 jmeter
 
