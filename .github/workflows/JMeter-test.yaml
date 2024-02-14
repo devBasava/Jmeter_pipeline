@@ -103,6 +103,7 @@ jobs:
         run: |
           wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           unzip jpgc-dummy-0.4.zip
+          chmod +rx ./apache-jmeter-5.4.1/
           cd ./apache-jmeter-5.4.1/bin
           java -jar ./apache-jmeter-5.4.1/lib/cmdrunner-2.2.1.jar --tool org.jmeterplugins.repository.PluginManagerCMD install jpgc-dummy-0.4.jar
           # ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install jpgc-dummy-0.4.jar
