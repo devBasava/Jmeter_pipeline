@@ -12,18 +12,18 @@ jobs:
         run: |
           wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.zip
           unzip apache-jmeter-5.4.1.zip
-          mv apache-jmeter-5.4.1 jmeter
+          cd apache-jmeter-5.4.1/bin
 
       - name: Download and Install Plugin Manager (Optional)
         run: |
           # Download JAR (skip if Plugin Manager already installed)
-          if [[ ! -f "jmeter/lib/ext/jmeter-plugins-manager-1.6.jar" ]]; then
-            cd jmeter/lib/ext
+          if [[ ! -f "apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.6.jar" ]]; then
+            cd apache-jmeter-5.4.1/lib/ext
             curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
           fi
 
           # Install Plugin Manager (requires `jmeter` directory)
-          jmeter/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.6.jar
+          apache-jmeter-5.4.1/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.6.jar
 
       - name: Install jpgc-dummy Plugin
         run: |
