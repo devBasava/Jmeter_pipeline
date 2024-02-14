@@ -48,7 +48,7 @@ jobs:
                 if [[ "5.6.2" > "5.3.0" ]]; then
                   java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
                 fi
-                echo "PluginsManagerCMD.sh installed successfully"
+                echo "PluginsManagerCMD.sh installed successfullyy"
 
       - name: Download and Install Plugin Manager (Optional)
         run: |
