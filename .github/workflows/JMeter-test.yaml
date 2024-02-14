@@ -1,0 +1,38 @@
+name: JMeter Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install JMeter
+        run: |
+          wget https://dlcdn.apache.org/jmeter/5.5.1/ApacheJMeter.tgz
+          tar -xf ApacheJMeter.tgz
+          mv ApacheJMeter-5.5.1 jmeter
+
+      - name: Install Plugins (Optional)
+        run: |
+          # Replace with your plugin installation commands
+          # Example:
+          jmeter/bin/PluginsManagerCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport plugins+=("jpgc-cmd" "jpgc-synthesis" "jp@gc - Dummy Sampler")
+
+      - name: Copy Test Files
+        run: |
+          DemoTest.jmx jmeter/bin/
+
+      - name: Run Test Plan
+        run: |
+          jmeter/bin/jmeter -n -t DemoTest.jmx -l results.jtl
+
+      - name: Upload Results (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-results
+          path: jmeter/bin/results*.csv
+
