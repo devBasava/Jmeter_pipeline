@@ -105,9 +105,9 @@ jobs:
             # Add steps to download or install the Plugins Manager (optional)       
           fi
        
-        -name: Install Plugin Manager (requires `jmeter` directory)
-         run: |
-           unzip jpgc-dummy-0.4.zip
+        # -name: Install Plugin Manager (requires `jmeter` directory)
+        #  run: |
+        #    unzip jpgc-dummy-0.4.zip
      
       # - name: Download jpgc-dummy Plugin
       #   run: |
