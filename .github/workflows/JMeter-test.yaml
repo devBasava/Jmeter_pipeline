@@ -10,7 +10,7 @@ jobs:
 
       - name: Install JMeter
         run: |
-          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.4.1.zip
+          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.zip
           unzip apache-jmeter-5.4.1.zip
           cd apache-jmeter-5.4.1/bin
 
