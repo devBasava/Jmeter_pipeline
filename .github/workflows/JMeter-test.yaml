@@ -43,12 +43,7 @@ jobs:
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
               fi
 
-      - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
-        run: |
-                if [[ "5.6.2" > "5.3.0" ]]; then
-                  java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-                fi
-                echo "PluginsManagerCMD.sh installed successfullyy"
+      
 
       - name: Download and Install Plugin Manager (Optional)
         run: |
@@ -62,6 +57,14 @@ jobs:
           # Install PluginManagerCMD
           # java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
 
+      - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
+        run: |
+                      if [[ "5.6.2" > "5.3.0" ]]; then
+                        java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+                      fi
+                      echo "PluginsManagerCMD.sh installed successfullyy"
+
+                
       - name: Check for JMeter PluginsManagerCMD.sh
         run: |
           # Replace placeholders with actual paths based on your environment
