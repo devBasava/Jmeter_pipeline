@@ -18,7 +18,7 @@ jobs:
         run: |
           wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           unzip jpgc-dummy-0.4.zip
-          jmeter/bin/PluginsManagerCMD.sh --install jpgc-dummy-0.4.jar
+          apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install jpgc-dummy-0.4.jar
 
       - name: Copy Test Files
         run: |
