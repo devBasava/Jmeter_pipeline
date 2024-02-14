@@ -23,7 +23,7 @@ jobs:
           fi
 
           # Install Plugin Manager (requires `jmeter` directory)
-          jmeter/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.6.jar
+          cd jmeter/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.6.jar
 
       - name: Install jpgc-dummy Plugin
         run: |
