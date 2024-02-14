@@ -60,7 +60,7 @@ jobs:
           fi
 
           # Install PluginManagerCMD
-          java -cp ./apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+          # java -cp ./apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
 
       - name: Check for JMeter PluginsManagerCMD.sh
         run: |
@@ -68,6 +68,16 @@ jobs:
           file_path="./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh"
       
           if [[ -f "$file_path" ]]; then
+            echo "JMeter Plugins Manager found at $file_path"
+            # Add steps to install plugins, run tests, etc. (optional)
+          else
+            echo "JMeter Plugins Manager not found at $file_path"
+            # Add steps to download or install the Plugins Manager (optional)
+            # Install Plugin Manager (requires `jmeter` directory)
+            java -cp ./apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+          fi
+
+           if [[ -f "$file_path" ]]; then
             echo "JMeter Plugins Manager found at $file_path"
             # Add steps to install plugins, run tests, etc. (optional)
           else
