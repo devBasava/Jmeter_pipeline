@@ -18,9 +18,9 @@ jobs:
         run: |
           # Search for the jmeter executable in common locations
           JMETER_PATHS=(
-              "/usr/share/jmeter/bin/jmeter"
-              "/usr/local/share/jmeter/bin/jmeter"
-              "YOUR_CUSTOM_PATH/jmeter/bin/jmeter"  # Replace with your custom path if applicable
+              "/usr/share/apache-jmeter-5.4.1/bin/jmeter.sh"
+              "/usr/local/share/apache-jmeter-5.4.1/bin/jmeter.sh"
+              "./apache-jmeter-5.4.1/bin/jmeter.sh"  # Replace with your custom path if applicable
             )
 
           # Iterate through potential paths and verify existence
