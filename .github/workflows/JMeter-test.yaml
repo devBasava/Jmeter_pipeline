@@ -13,7 +13,7 @@ jobs:
           wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.zip
           unzip apache-jmeter-5.4.1.zip
           mv apache-jmeter-5.4.1 jmeter
-         
+
       - name: Download and Install Plugin Manager (Optional)
         run: |
           # Download JAR (skip if Plugin Manager already installed)
@@ -23,13 +23,13 @@ jobs:
           fi
 
           # Install Plugin Manager (requires `jmeter` directory)
-          cd jmeter/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.6.jar
+          jmeter/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.6.jar
 
       - name: Install jpgc-dummy Plugin
         run: |
           wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           unzip jpgc-dummy-0.4.zip
-          apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install jpgc-dummy-0.4.jar
+          jmeter/bin/PluginsManagerCMD.sh --install jpgc-dummy-0.4.jar
 
       - name: Copy Test Files
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Run Test Plan
         run: |
-          jmeter/bin/jmeter -n -t your_test_plan.jmx -l results.jtl
+          jmeter/bin/jmeter -n -t jmeter/bin/your_test_plan.jmx -l results.jtl
 
       - name: Convert JTL to CSV
         run: |
@@ -52,4 +52,3 @@ jobs:
         with:
           name: jmeter-results
           path: results.csv,errors.txt
-
