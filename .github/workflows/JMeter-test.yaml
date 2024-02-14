@@ -115,7 +115,7 @@ jobs:
           # shasum -c jpgc-dummy-0.4.jar.sha1
           # Install the plugin using PluginsManagerCMD with appropriate permissions
           chmod +x ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh
-          ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install ../jpgc-dummy-0.4.jar
+          ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install ./apache-jmeter-5.4.1/lib/ext/jpgc-dummy-0.4.jar
           # Confirm installation
           echo "jpgc-dummy plugin installed successfully."
           
