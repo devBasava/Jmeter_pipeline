@@ -13,6 +13,27 @@ jobs:
           wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.zip
           unzip apache-jmeter-5.4.1.zip
           cd apache-jmeter-5.4.1/bin
+          
+      - name: Check JMeter Installation Path
+        run: |
+          # Search for the jmeter executable in common locations
+          JMETER_PATHS=(
+              "/usr/share/jmeter/bin/jmeter"
+              "/usr/local/share/jmeter/bin/jmeter"
+              "YOUR_CUSTOM_PATH/jmeter/bin/jmeter"  # Replace with your custom path if applicable
+            )
+
+          # Iterate through potential paths and verify existence
+          for path in "${JMETER_PATHS[@]}"; do
+              if [[ -f "$path" ]]; then
+                echo "JMeter found at: $path"
+                exit 0  # Exit successfully if found
+              fi
+            done
+
+          # If not found in any location, exit with an error
+          echo "JMeter installation path not found. Please check your configuration."
+          exit 1
 
       - name: Download and Install Plugin Manager (Optional)
         run: |
