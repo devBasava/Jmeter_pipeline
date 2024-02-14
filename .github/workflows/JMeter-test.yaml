@@ -31,9 +31,24 @@ jobs:
               fi
             done
 
-          # If not found in any location, exit with an error
+            # If not found in any location, exit with an error
           echo "JMeter installation path not found. Please check your configuration."
           exit 1
+
+          - name: Download and Install PluginsManagerCMD.sh (if higher than 5.3.0)
+            run: |
+              if [[ "5.4.1" > "5.3.0" ]]; then
+                curl -O https://jmeter-plugins.org/get/
+                cd ./apache-jmeter-5.4.1/bin/ext
+                curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
+              fi
+
+            - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
+              run: |
+                if [[ "5.4.1" > "5.3.0" ]]; then
+                  ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh --install-command-line
+                fi
+
 
       - name: Download and Install Plugin Manager (Optional)
         run: |
