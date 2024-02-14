@@ -59,13 +59,13 @@ jobs:
           fi
 
           # Install Plugin Manager (requires `jmeter` directory)
-          ./apache-jmeter-5.4.1/bin/jmeter -n -t jmeter/lib/ext/jmeter-plugins-manager-1.10.jar
+          # ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh -n -t jmeter/lib/ext/jmeter-plugins-manager-1.10.jar
 
       - name: Install jpgc-dummy Plugin
         run: |
           wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           unzip jpgc-dummy-0.4.zip
-          jmeter/bin/PluginsManagerCMD.sh --install jpgc-dummy-0.4.jar
+          ./apache-jmeter-5.4.1/bin/PluginsManagerCMD.sh install jpgc-dummy-0.4.jar
 
       - name: Copy Test Files
         run: |
