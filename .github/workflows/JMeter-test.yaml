@@ -56,6 +56,7 @@ jobs:
           if [[ ! -f "./apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.10.jar" ]]; then
             cd ./apache-jmeter-5.4.1/lib/ext
             curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
+            echo "plugin Manager installed successfully"
           fi
 
           # Install Plugin Manager (requires `jmeter` directory)
@@ -73,7 +74,7 @@ jobs:
             echo "JMeter Plugins Manager not found at $file_path"
             # Add steps to download or install the Plugins Manager (optional)
             # Install Plugin Manager (requires `jmeter` directory)
-            ./apache-jmeter-5.4.1/bin/java -cp ./apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+            java -cp ./apache-jmeter-5.4.1/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
           fi
 
 
