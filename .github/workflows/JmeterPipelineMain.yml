@@ -33,7 +33,7 @@ jobs:
         with:
          testFilePath: ./DemoTest.jmx
          outputReportsFolder: reports
-         plugins: https://github.com/undera/jmeter-plugins
+         plugins: https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
          # Additional arguments here (optional)
 
 
