@@ -124,7 +124,7 @@ jobs:
                   echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
                   exit 1 # Set exit code to indicate failure
                 else
-                  echo "No errors exceeding 2% found."
+                  echo "No errors exceeding 2% found. - value $error_count"
                 fi
                 
       - name: Check JMeter bin directory files to check results csv and errors txt files 
