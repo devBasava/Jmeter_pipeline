@@ -135,9 +135,9 @@ jobs:
         run: |
           ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl -o results.csv
 
-      - name: Convert JTL to CSV
-        run: |
-          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+      # - name: Convert JTL to CSV
+      #   run: |
+      #     ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
 
       # - name: Check for JMeter JMeterPluginsCMD.sh
       #   run: |
@@ -153,9 +153,9 @@ jobs:
       #     fi
      
 
-      # - name: Analyze "error %" column
-      #   run: |
-      #     awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' results.csv > errors.txt
+      - name: Analyze "error %" column
+        run: |
+          awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' results.csv > errors.txt
 
       # - name: Upload Results (Optional)
       #   uses: actions/upload-artifact@v3
