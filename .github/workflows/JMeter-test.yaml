@@ -112,9 +112,23 @@ jobs:
         run: |
           ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl
 
-      - name: Convert JTL to CSV
+      # - name: Convert JTL to CSV
+      #   run: |
+      #     ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+
+      - name: Check for JMeter JMeterPluginsCMD.sh
         run: |
-          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+          # Replace placeholders with actual paths based on your environment
+          file_path_JMeterPluginsCMD="./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh"
+
+           if [[ -f "$file_path" ]]; then
+            echo "JMeter JMeterPluginsCMD found at $file_path_JMeterPluginsCMD"
+            # Add steps to install plugins, run tests, etc. (optional)
+          else
+            echo "JMeter JMeterPluginsCMD not found at $file_path_JMeterPluginsCMD"
+            # Add steps to download or install the Plugins Manager (optional)
+          fi
+     
 
       # - name: Analyze "error %" column
       #   run: |
