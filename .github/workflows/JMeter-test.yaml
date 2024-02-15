@@ -118,12 +118,15 @@ jobs:
 
       - name: Create a error text file and Check results csv and errors txt files 
         run: |
-          awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,"," $10 } }' results.csv > errors.txt
+          awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
+          awk '{print NR, "line"}' results.csv > file.txt
           ls   
           
       - name: Read Text File Using cat
         run: |
-          cat errors.txt
+          cat file.txt
+          echo "---------------------------"
+           cat errors.txt
 
       - name: Read csv File Using cat
         run: |
