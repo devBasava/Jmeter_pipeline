@@ -104,8 +104,11 @@ jobs:
           # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
           wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
           unzip jpgc-cmd-2.2.zip
-          command_that_triggers_prompt -y
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd, jpgc-dummy
+          output="replace lib/jmeter-plugins-cmn-jmeter-0.6.jar?"
+          if [[ $output == *"replace lib/jmeter-plugins-cmn-jmeter-0.6.jar?"* ]]; then
+            echo "y"
+          fi
           echo "installation of plugin is complete"
 
       - name: Check JMeter bin directory files
