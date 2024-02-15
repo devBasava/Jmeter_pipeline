@@ -154,23 +154,23 @@ jobs:
         run: |
           ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv ./apache-jmeter-5.6.2/bin/results.csv --input-jtl ./apache-jmeter-5.6.2/bin/results.jtl --plugin-type AggregateReport
 
-      # - name: Check for JMeter JMeterPluginsCMD.sh
-      #   run: |
-      #     # Replace placeholders with actual paths based on your environment
-      #     file_path_results_csv="./apache-jmeter-5.6.2/bin/results.csv"
+      - name: Check for JMeter results.csv
+        run: |
+          # Replace placeholders with actual paths based on your environment
+          file_path_results_csv="./apache-jmeter-5.6.2/bin/results.csv"
 
-      #      if [[ -f "$file_path_results_csv" ]]; then
-      #       echo "JMeter CSV found at $file_path_results_csv"
-      #       # Add steps to install plugins, run tests, etc. (optional)
-      #     else
-      #       echo "JMeter CSV not found at $file_path_results_csv"
-      #       # Add steps to download or install the Plugins Manager (optional)
-      #     fi
+           if [[ -f "$file_path_results_csv" ]]; then
+            echo "JMeter CSV found at $file_path_results_csv"
+            # Add steps to install plugins, run tests, etc. (optional)
+          else
+            echo "JMeter CSV not found at $file_path_results_csv"
+            # Add steps to download or install the Plugins Manager (optional)
+          fi
      
 
-      # - name: Analyze "error %" column
-      #   run: |
-      #     awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' ./apache-jmeter-5.6.2/bin/results.csv > errors.txt
+      - name: Analyze "error %" column
+        run: |
+          awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' ./apache-jmeter-5.6.2/bin/results.csv > ./apache-jmeter-5.6.2/bin/errors.txt
 
       # - name: Upload Results (Optional)
       #   uses: actions/upload-artifact@v3
