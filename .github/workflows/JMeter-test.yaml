@@ -72,18 +72,19 @@ jobs:
           echo "PluginsManagerCMD.sh installed successfullyy"
  
                 
-      - name: Check for JMeter PluginsManagerCMD.sh
+      - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
         run: |
           # Replace placeholders with actual paths based on your environment
           file_path="./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh"
           file_path_cmdRunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.3.jar"
           file_path_pluginManger="./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar"
+          file_path_cmdrunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.2.jar"
       
-          if [[ -f "$file_path" ]]; then
-            echo "JMeter PluginsManagerCMD found at $file_path"
+          if [[ -f "$file_path_cmdrunner" ]]; then
+            echo "JMeter cmdrunner found at $file_path_cmdrunner"
             # Add steps to install plugins, run tests, etc. (optional)
           else
-            echo "JMeter PluginsManagerCMD not found at $file_path"
+            echo "JMeter PluginsManagerCMD not found at $file_path_cmdrunner"
             # Add steps to download or install the Plugins Manager (optional)
             # Install Plugin Manager (requires `jmeter` directory)
             # java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
