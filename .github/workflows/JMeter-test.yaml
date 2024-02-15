@@ -105,6 +105,10 @@ jobs:
           unzip jpgc-cmd-2.2.zip
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           echo "installation of plugin is complete"
+
+      - name: Check JMeter bin directory files
+        run: |
+          ls -l ./apache-jmeter-5.6.2/bin/
     
       # - name: Copy Test Files to Jmeter bin folder
       #   run: |
