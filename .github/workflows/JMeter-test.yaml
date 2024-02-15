@@ -127,6 +127,10 @@ jobs:
         run: |
           cat errors.txt
 
+      - name: Read csv File Using cat
+        run: |
+          cat results.csv
+
           
       - name: Upload Results (Optional)
         uses: actions/upload-artifact@v3
