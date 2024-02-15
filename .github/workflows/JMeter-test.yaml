@@ -120,13 +120,25 @@ jobs:
         run: |
           awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1, $10 } }' results.csv > errors.txt
            # error_count=$(awk -F, '{ if ($10 > 2) { print $1 } }' results.csv > errors.txt | wc -l)
-           error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv)
-                if [[ "$error_count" -gt 0 ]]; then
-                  echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
-                  exit 1 # Set exit code to indicate failure
-                else
-                  echo "No errors exceeding 2% found. - value $error_count"
-                fi
+           # error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv)
+           #      if [[ "$error_count" -gt 0 ]]; then
+           #        echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
+           #        exit 1 # Set exit code to indicate failure
+           #      else
+           #        echo "No errors exceeding 2% found. - value $error_count"
+           #      fi
+
+           # Count errors and save to variable
+          error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv | wc -l)
+          echo "Value is $error_count"
+          
+          # Check if there are any errors
+          if [[ '$error_count' -gt 0 ]]; then
+            echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
+            exit 1  # Set exit code to indicate failure
+          else
+            echo "No errors exceeding 2% found."
+          fi
                 
       - name: Check JMeter bin directory files to check results csv and errors txt files 
         run: |
