@@ -166,10 +166,11 @@ jobs:
 
       - name: Check JMeter bin directory files to check results csv and errors txt files 
         run: |
-          ls -l ./apache-jmeter-5.6.2/bin/
+          ls
+          
           
       - name: Upload Results (Optional)
         uses: actions/upload-artifact@v3
         with:
           name: jmeter-results
-          path: ./apache-jmeter-5.6.2/bin/results.csv,./apache-jmeter-5.6.2/bin/errors.txt
+          path: ./apache-jmeter-5.6.2/bin/results.csv, ./apache-jmeter-5.6.2/bin/errors.txt
