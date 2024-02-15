@@ -123,6 +123,10 @@ jobs:
       - name: Check JMeter bin directory files to check results csv and errors txt files 
         run: |
           ls   
+      - name: Read Text File Using cat
+        run: |
+          cat errors.txt
+
           
       - name: Upload Results (Optional)
         uses: actions/upload-artifact@v3
