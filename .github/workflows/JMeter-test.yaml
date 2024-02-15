@@ -112,7 +112,7 @@ jobs:
             # Add steps to download or install the Plugins Manager (optional)       
           fi
        
-      - name: Download jpgc-dummy Plugin
+      - name: Download jpgc-dummy,jpgc-cmd Plugin
         run: |
           # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           # unzip jpgc-dummy-0.4.zip
@@ -123,6 +123,10 @@ jobs:
           echo "installation of plugin jpgc-cmd is complete"
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
           echo "installation of plugin jpgc-dummy is complete"
+          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-synthesis
+          echo "installation of plugin jpgc-synthesis is complete"
+          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-filterresults
+          echo "installation of plugin jpgc-filterresults is complete"
           
      
       - name: Copy Test Files to Jmeter bin folder
