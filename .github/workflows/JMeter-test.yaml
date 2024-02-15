@@ -141,8 +141,8 @@ jobs:
         run: |
           # awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1, $10 } }' results.csv > errors.txt
           # Count errors and save to variable
-          # error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv | wc -l)
-          error_count=$(awk -F, '{ if (NR > 1 && NR < NREND && $10 > 2) { print NR } }' results.csv | wc -l)
+          error_count=$(awk -F, '{ if ($10 > 2.00) { print NR } }' results.csv | wc -l)
+          # error_count=$(awk -F, '{ if (NR > 1 && NR < NREND && $10 > 2) { print NR } }' results.csv | wc -l)
           echo "Total Transactions failure count is $error_count with error percentage > 2 %"
           
           # Check if there are any errors
