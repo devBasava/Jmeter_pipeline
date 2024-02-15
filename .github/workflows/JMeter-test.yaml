@@ -121,7 +121,7 @@ jobs:
           awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1, $10 } }' results.csv > errors.txt
            # error_count=$(awk -F, '{ if ($10 > 2) { print $1 } }' results.csv > errors.txt | wc -l)
            error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv)
-                if [[ $error_count -gt 0 ]]; then
+                if [[ "$error_count" -gt 0 ]]; then
                   echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
                   exit 1 # Set exit code to indicate failure
                 else
