@@ -160,7 +160,7 @@ without actual network activity. This helps debugging tests.</stringProp>
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Workdrive\Inv-Pgms\DemoTest\Test.jtl</stringProp>
+          <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
