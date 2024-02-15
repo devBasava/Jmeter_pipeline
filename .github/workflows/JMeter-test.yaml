@@ -35,12 +35,12 @@ jobs:
           echo "JMeter installation path not found. Please check your configuration."
           exit 1
 
-      - name: Download and Install cmdrunner-2.3.jar
+      - name: Download and Install cmdrunner-2.2.jar
         run: |
               if [[ "5.6.2" > "5.3.0" ]]; then
                 # curl -O https://jmeter-plugins.org/get/
                 cd ./apache-jmeter-5.6.2/lib
-                curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
+                curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
               fi
 
       - name: Download and Install Plugin Manager (Optional)
@@ -106,9 +106,9 @@ jobs:
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           echo "installation of plugin is complete"
     
-      - name: Copy Test Files to Jmeter bin folder
-        run: |
-          cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
+      # - name: Copy Test Files to Jmeter bin folder
+      #   run: |
+      #     cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
 
       # - name: Run Test Plan
       #   run: |
