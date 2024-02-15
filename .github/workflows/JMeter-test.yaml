@@ -45,14 +45,11 @@ jobs:
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
               fi
               
-      - name: Check JMeter bin directory files
-        run: |
-          # ls -l ./apache-jmeter-5.6.2/bin/
-          # echo "Next lib directory"
-          ls -l ./apache-jmeter-5.6.2/lib/
-          echo "Next lib directory"
-      #     ls -l ./apache-jmeter-5.6.2/lib/ext/
-      #     echo "Next lib-ext directory"
+      # - name: Check JMeter bin directory files
+      #   run: |
+      #     ls -l ./apache-jmeter-5.6.2/lib/
+      #     echo "Next lib directory"
+      
 
       - name: Download and Install Plugin Manager (Optional)
         run: |
@@ -120,26 +117,26 @@ jobs:
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
           echo "installation of plugin jpgc-dummy is complete"
           
-      - name: Check JMeter bin directory files
-        run: |
+      # - name: Check JMeter bin directory files
+      #   run: |
           # ls -l ./apache-jmeter-5.6.2/bin/
           # echo "Next lib directory"
-          ls -l ./apache-jmeter-5.6.2/lib/
-          echo "Next lib directory"
+          # ls -l ./apache-jmeter-5.6.2/lib/
+          # echo "Next lib directory"
       #     ls -l ./apache-jmeter-5.6.2/lib/ext/
       #     echo "Next lib-ext directory"
     
-      # - name: Copy Test Files to Jmeter bin folder
-      #   run: |
-      #     cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
+      - name: Copy Test Files to Jmeter bin folder
+        run: |
+          cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
 
-      # - name: Run Test Plan
-      #   run: |
-      #     ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl
+      - name: Run Test Plan
+        run: |
+          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl
 
-      # - name: Convert JTL to CSV
-      #   run: |
-      #     ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+      - name: Convert JTL to CSV
+        run: |
+          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
 
       # - name: Check for JMeter JMeterPluginsCMD.sh
       #   run: |
