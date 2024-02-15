@@ -118,7 +118,7 @@ jobs:
        
       - name: Analyze "error %" column
         run: |
-          awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $1 } }' results.csv > errors.txt
+          awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1 } }' results.csv > errors.txt
 
       - name: Check JMeter bin directory files to check results csv and errors txt files 
         run: |
