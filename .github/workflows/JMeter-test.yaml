@@ -96,26 +96,21 @@ jobs:
             echo "JMeter Plugins Manager not found at $file_path_pluginManger"
             # Add steps to download or install the Plugins Manager (optional)       
           fi
-  
-     
+       
       - name: Download jpgc-dummy Plugin
         run: |
           wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           unzip jpgc-dummy-0.4.zip
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
           echo "installation of plugin is complete"
+    
+      - name: Copy Test Files
+        run: |
+          ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
 
-  
-
-      
-
-      # - name: Copy Test Files
-      #   run: |
-      #     cp your_test_plan.jmx jmeter/bin/
-
-      # - name: Run Test Plan
-      #   run: |
-      #     jmeter/bin/jmeter -n -t jmeter/bin/your_test_plan.jmx -l results.jtl
+      - name: Run Test Plan
+        run: |
+          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl
 
       # - name: Convert JTL to CSV
       #   run: |
