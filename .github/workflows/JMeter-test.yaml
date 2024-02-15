@@ -116,7 +116,6 @@ jobs:
           # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
           unzip jpgc-cmd-2.2.zip
-           ls
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           echo "installation of plugin jpgc-cmd is complete"
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
@@ -127,34 +126,33 @@ jobs:
           echo "installation of plugin jpgc-filterresults is complete"
           
 
-      # - name: Find the jpgc-cmd-2.2.zip and find cmdrunner-2.2 and copy to jmeter/lib
-      #   run: |
-      #     find / -name "jpgc-cmd-2.2.zip"
-      #     find / -name "lib/cmdrunner-2.2.jar"
-      #      echo "Find the jpgc-cmd-2.2.zip & cmdrunner-2.2 is complete"
-      #     # cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
-     
-      - name: Copy Test Files to Jmeter bin folder
+      - name: Find the jpgc-cmd-2.2.zip and find cmdrunner-2.2 and copy to jmeter/lib
         run: |
-          cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
-
-      - name: Run Test Plan
-        run: |
-          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l ./apache-jmeter-5.6.2/bin/results.jtl 
-      
-      - name: Check JMeter bin directory files
-        run: |
-          ls -l ./apache-jmeter-5.6.2/bin/
-          echo "Next bin directory"
+          ls
+          cp ./lib/cmdrunner-2.2.jar ./apache-jmeter-5.6.2/lib/
           ls -l ./apache-jmeter-5.6.2/lib/
-          echo "Next lib directory"
-          ls -l ./apache-jmeter-5.6.2/lib/ext/
-          echo "Next lib-ext directory"
+     
+      # - name: Copy Test Files to Jmeter bin folder
+      #   run: |
+      #     cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
+
+      # - name: Run Test Plan
+      #   run: |
+      #     ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l ./apache-jmeter-5.6.2/bin/results.jtl 
+      
+      # - name: Check JMeter bin directory files
+      #   run: |
+      #     ls -l ./apache-jmeter-5.6.2/bin/
+      #     echo "Next bin directory"
+      #     ls -l ./apache-jmeter-5.6.2/lib/
+      #     echo "Next lib directory"
+      #     ls -l ./apache-jmeter-5.6.2/lib/ext/
+      #     echo "Next lib-ext directory"
 
 
-      - name: Convert JTL to CSV
-        run: |
-          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+      # - name: Convert JTL to CSV
+      #   run: |
+      #     ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
 
       # - name: Check for JMeter JMeterPluginsCMD.sh
       #   run: |
