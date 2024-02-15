@@ -143,9 +143,10 @@ jobs:
       - name: Analyze "error %" column
         run: |
           # deleting the last line and counting the total number of transaction exceeding failure more then 2%
-          line_count=$(sed '/^$/d' errors.txt | wc -l)
+          line_count=$(sed '/^$/d' results.csv | wc -l)
           echo "line_count after deleting last line --- " $line_count
-          error_count=$(awk -F, '{ if (NR > 1 && NR < '$line_count' && $2 > 2) { print NR } }' errors.txt | wc -l)
+          # error_count=$(awk -F, '{ if ($10 > 2 && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
+          error_count=$(awk -F, '{ if ($10 > 2 && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
           
           # Count errors and save to variable
           # error_count=$(awk -F, '{ if ($10 > 2.00) { print NR } }' results.csv | wc -l)
