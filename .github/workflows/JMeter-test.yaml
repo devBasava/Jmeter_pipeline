@@ -41,6 +41,7 @@ jobs:
                 # curl -O https://jmeter-plugins.org/get/
                 cd ./apache-jmeter-5.6.2/lib
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
+                curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
               fi
 
       - name: Download and Install Plugin Manager (Optional)
@@ -109,10 +110,10 @@ jobs:
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
           echo "installation of plugin jpgc-dummy is complete"
           
-      # - name: Check JMeter bin directory files
-      #   run: |
-      #     ls -l ./apache-jmeter-5.6.2/bin/
-      #     echo "Next lib directory"
+      - name: Check JMeter bin directory files
+        run: |
+          ls -l ./apache-jmeter-5.6.2/bin/
+          echo "Next lib directory"
       #     ls -l ./apache-jmeter-5.6.2/lib/
       #     echo "Next lib directory"
       #     ls -l ./apache-jmeter-5.6.2/lib/ext/
