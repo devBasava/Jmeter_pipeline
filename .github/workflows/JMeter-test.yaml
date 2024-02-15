@@ -142,7 +142,7 @@ jobs:
       - name: Check for JMeter JMeterPluginsCMD.sh
         run: |
           # Replace placeholders with actual paths based on your environment
-          file_path_results_csv="./apache-jmeter-5.6.2/bin/results.csv"
+          file_path_results_csv="./apache-jmeter-5.6.2/bin/results.jtl"
 
            if [[ -f "$file_path_results_csv" ]]; then
             echo "JMeter CSV found at $file_path_results_csv"
