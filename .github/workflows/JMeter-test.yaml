@@ -42,14 +42,14 @@ jobs:
                 cd ./apache-jmeter-5.6.2/lib
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
                 # cd ./apache-jmeter-5.6.2/lib
-                # curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
+                curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
               fi
 
-      - name: Download and Install cmdrunner-2.2.jar
-        run: |
-          curl -L http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar  --output ./apache-jmeter-5.6.2/lib/cmdrunner-2.2.jar
+      # - name: Download and Install cmdrunner-2.2.jar
+      #   run: |
+      #     curl -L http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar  --output ./apache-jmeter-5.6.2/lib/cmdrunner-2.2.jar
             
-          echo "cmdrunner-2.2.jar again installed successfullyy"
+      #     echo "cmdrunner-2.2.jar again installed successfullyy"
               
       # - name: Check JMeter bin directory files
       #   run: |
