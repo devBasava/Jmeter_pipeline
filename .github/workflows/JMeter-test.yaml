@@ -43,15 +43,7 @@ jobs:
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
                 # cd ./apache-jmeter-5.6.2/lib
                 # curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
-              fi
-
-      # - name: Download and Install cmdrunner-2.2.jar
-      #   run: |
-      #     cd ./apache-jmeter-5.6.2/lib
-      #     curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
-            
-      #     echo "cmdrunner-2.2.jar again installed successfullyy"
-              
+              fi          
     
 
       - name: Download and Install Plugin Manager (Optional)
@@ -75,39 +67,39 @@ jobs:
           echo "PluginsManagerCMD.sh installed successfullyy"
  
                 
-      - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
-        run: |
-          # Replace placeholders with actual paths based on your environment
-          file_path="./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh"
-          file_path_cmdRunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.3.jar"
-          file_path_pluginManger="./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar"
-          file_path_cmdrunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.2.jar"
+      # - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
+      #   run: |
+      #     # Replace placeholders with actual paths based on your environment
+      #     file_path="./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh"
+      #     file_path_cmdRunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.3.jar"
+      #     file_path_pluginManger="./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar"
+      #     file_path_cmdrunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.2.jar"
       
-          if [[ -f "$file_path_cmdrunner" ]]; then
-            echo "JMeter cmdrunner found at $file_path_cmdrunner"
-            # Add steps to install plugins, run tests, etc. (optional)
-          else
-            echo "JMeter PluginsManagerCMD not found at $file_path_cmdrunner"
-            # Add steps to download or install the Plugins Manager (optional)
-            # Install Plugin Manager (requires `jmeter` directory)
-            # java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-          fi
+      #     if [[ -f "$file_path_cmdrunner" ]]; then
+      #       echo "JMeter cmdrunner found at $file_path_cmdrunner"
+      #       # Add steps to install plugins, run tests, etc. (optional)
+      #     else
+      #       echo "JMeter PluginsManagerCMD not found at $file_path_cmdrunner"
+      #       # Add steps to download or install the Plugins Manager (optional)
+      #       # Install Plugin Manager (requires `jmeter` directory)
+      #       # java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+      #     fi
 
-           if [[ -f "$file_path_cmdRunner" ]]; then
-            echo "JMeter cmdrunner Plugins Manager found at $file_path_cmdRunner"
-            # Add steps to install plugins, run tests, etc. (optional)
-          else
-            echo "JMeter cmdrunner Plugins Manager not found at $file_path_cmdRunner"
-            # Add steps to download or install the Plugins Manager (optional)
-          fi
+      #      if [[ -f "$file_path_cmdRunner" ]]; then
+      #       echo "JMeter cmdrunner Plugins Manager found at $file_path_cmdRunner"
+      #       # Add steps to install plugins, run tests, etc. (optional)
+      #     else
+      #       echo "JMeter cmdrunner Plugins Manager not found at $file_path_cmdRunner"
+      #       # Add steps to download or install the Plugins Manager (optional)
+      #     fi
 
-          if [[ -f "$file_path_pluginManger" ]]; then
-            echo "JMeter Plugins Manager found at $file_path_pluginManger"
-            # Add steps to install plugins, run tests, etc. (optional)
-          else
-            echo "JMeter Plugins Manager not found at $file_path_pluginManger"
-            # Add steps to download or install the Plugins Manager (optional)       
-          fi
+      #     if [[ -f "$file_path_pluginManger" ]]; then
+      #       echo "JMeter Plugins Manager found at $file_path_pluginManger"
+      #       # Add steps to install plugins, run tests, etc. (optional)
+      #     else
+      #       echo "JMeter Plugins Manager not found at $file_path_pluginManger"
+      #       # Add steps to download or install the Plugins Manager (optional)       
+      #     fi
        
       - name: Download jpgc-dummy,jpgc-cmd Plugin
         run: |
@@ -116,14 +108,14 @@ jobs:
           # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
           unzip jpgc-cmd-2.2.zip
-          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
+          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults
           echo "installation of plugin jpgc-cmd is complete"
-          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
-          echo "installation of plugin jpgc-dummy is complete"
-          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-synthesis
-          echo "installation of plugin jpgc-synthesis is complete"
-          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-filterresults
-          echo "installation of plugin jpgc-filterresults is complete"
+          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
+          # echo "installation of plugin jpgc-dummy is complete"
+          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-synthesis
+          # echo "installation of plugin jpgc-synthesis is complete"
+          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-filterresults
+          # echo "installation of plugin jpgc-filterresults is complete"
           
 
       - name: Copy unziped file lib/cmdrunner-2.2.jar to apache-jmeter-5.6.2/lib
@@ -140,14 +132,14 @@ jobs:
         run: |
           ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l ./apache-jmeter-5.6.2/bin/results.jtl 
       
-      - name: Check JMeter bin directory files
-        run: |
-          ls -l ./apache-jmeter-5.6.2/bin/
-          echo "Next bin directory"
-          ls -l ./apache-jmeter-5.6.2/lib/
-          echo "Next lib directory"
-          ls -l ./apache-jmeter-5.6.2/lib/ext/
-          echo "Next lib-ext directory"
+      # - name: Check JMeter bin directory files
+      #   run: |
+      #     ls -l ./apache-jmeter-5.6.2/bin/
+      #     echo "Next bin directory"
+      #     ls -l ./apache-jmeter-5.6.2/lib/
+      #     echo "Next lib directory"
+      #     ls -l ./apache-jmeter-5.6.2/lib/ext/
+      #     echo "Next lib-ext directory"
 
 
       - name: Convert JTL to CSV
@@ -176,4 +168,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jmeter-results
-          path: results.csv,errors.txt
+          path: ./apache-jmeter-5.6.2/bin/results.csv,./apache-jmeter-5.6.2/bin/errors.txt
