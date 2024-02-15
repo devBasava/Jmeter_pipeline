@@ -115,20 +115,31 @@ jobs:
       - name: Convert JTL to CSV
         run: |
           ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+
+      - name: Create a error text file and Check results csv and errors txt files 
+        run: |
+          awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1, $10 } }' results.csv > errors.txt
+          ls   
+          
+      - name: Read Text File Using cat
+        run: |
+          cat errors.txt
+
+      - name: Read csv File Using cat
+        run: |
+          cat results.csv
+
+      - name: Upload Results (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-results
+          path: /home/runner/work/Jmeter_pipeline/Jmeter_pipeline/results.csv, /home/runner/work/Jmeter_pipeline/Jmeter_pipeline/errors.txt
+
        
       - name: Analyze "error %" column
         run: |
-          awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1, $10 } }' results.csv > errors.txt
-           # error_count=$(awk -F, '{ if ($10 > 2) { print $1 } }' results.csv > errors.txt | wc -l)
-           # error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv)
-           #      if [[ "$error_count" -gt 0 ]]; then
-           #        echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
-           #        exit 1 # Set exit code to indicate failure
-           #      else
-           #        echo "No errors exceeding 2% found. - value $error_count"
-           #      fi
-
-           # Count errors and save to variable
+          # awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1, $10 } }' results.csv > errors.txt
+          # Count errors and save to variable
           error_count=$(awk -F, '{ if ($10 > 2) { print NR } }' results.csv | wc -l)
           echo "Value is $error_count"
           
@@ -140,20 +151,7 @@ jobs:
             echo "No errors exceeding 2% found."
           fi
                 
-      - name: Check JMeter bin directory files to check results csv and errors txt files 
-        run: |
-          ls   
-      - name: Read Text File Using cat
-        run: |
-          cat errors.txt
-
-      - name: Read csv File Using cat
-        run: |
-          cat results.csv
+      
 
           
-      - name: Upload Results (Optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-results
-          path: /home/runner/work/Jmeter_pipeline/Jmeter_pipeline/results.csv, /home/runner/work/Jmeter_pipeline/Jmeter_pipeline/errors.txt
+      
