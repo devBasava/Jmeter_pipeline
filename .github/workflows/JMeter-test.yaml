@@ -116,6 +116,7 @@ jobs:
           # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
           unzip jpgc-cmd-2.2.zip
+           ls
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           echo "installation of plugin jpgc-cmd is complete"
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
@@ -126,12 +127,12 @@ jobs:
           echo "installation of plugin jpgc-filterresults is complete"
           
 
-      - name: Find the jpgc-cmd-2.2.zip and find cmdrunner-2.2 and copy to jmeter/lib
-        run: |
-          find / -name "jpgc-cmd-2.2.zip"
-          find / -name "lib/cmdrunner-2.2.jar"
-           echo "Find the jpgc-cmd-2.2.zip & cmdrunner-2.2 is complete"
-          # cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
+      # - name: Find the jpgc-cmd-2.2.zip and find cmdrunner-2.2 and copy to jmeter/lib
+      #   run: |
+      #     find / -name "jpgc-cmd-2.2.zip"
+      #     find / -name "lib/cmdrunner-2.2.jar"
+      #      echo "Find the jpgc-cmd-2.2.zip & cmdrunner-2.2 is complete"
+      #     # cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
      
       - name: Copy Test Files to Jmeter bin folder
         run: |
