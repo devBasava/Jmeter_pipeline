@@ -118,9 +118,15 @@ jobs:
        
       - name: Analyze "error %" column
         run: |
-          awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1 } }' results.csv > errors.txt
-          awk -F, '{ if ($10 > 2) { github.context.job.conclusion="failure" } }' 
-
+          # awk -F, '{ if ($10 > 2) { print "Error percentage exceeds 2% for request: " $1 } }' results.csv > errors.txt
+           error_count=$(awk -F, '{ if ($10 > 2) { print $0 } }' results.csv > errors.txt | wc -l)
+                if [[ $error_count -gt 0 ]]; then
+                  echo "Error percentage exceeds 2% for $error_count requests. Failing pipeline."
+                  exit 1 # Set exit code to indicate failure
+                else
+                  echo "No errors exceeding 2% found."
+                fi
+                
       - name: Check JMeter bin directory files to check results csv and errors txt files 
         run: |
           ls   
