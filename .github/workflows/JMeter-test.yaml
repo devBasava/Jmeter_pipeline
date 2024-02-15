@@ -41,7 +41,7 @@ jobs:
                 # curl -O https://jmeter-plugins.org/get/
                 cd ./apache-jmeter-5.6.2/lib
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
-                cd ./apache-jmeter-5.6.2/lib
+                # cd ./apache-jmeter-5.6.2/lib
                 curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
               fi
               
