@@ -152,7 +152,7 @@ jobs:
 
       - name: Convert JTL to CSV
         run: |
-          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv ./apache-jmeter-5.6.2/bin/results.csv --input-jtl ./apache-jmeter-5.6.2/bin/results.jtl --plugin-type AggregateReport
 
       # - name: Check for JMeter JMeterPluginsCMD.sh
       #   run: |
