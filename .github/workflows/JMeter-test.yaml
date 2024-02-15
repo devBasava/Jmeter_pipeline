@@ -55,9 +55,6 @@ jobs:
             echo "plugin Manager installed successfully"
           fi
 
-          # Install PluginManagerCMD
-          # java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-
       - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
         run: |
           java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
@@ -70,29 +67,8 @@ jobs:
       # - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
       #   run: |
       #     # Replace placeholders with actual paths based on your environment
-      #     file_path="./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh"
-      #     file_path_cmdRunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.3.jar"
       #     file_path_pluginManger="./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar"
-      #     file_path_cmdrunner="./apache-jmeter-5.6.2/lib/cmdrunner-2.2.jar"
-      
-      #     if [[ -f "$file_path_cmdrunner" ]]; then
-      #       echo "JMeter cmdrunner found at $file_path_cmdrunner"
-      #       # Add steps to install plugins, run tests, etc. (optional)
-      #     else
-      #       echo "JMeter PluginsManagerCMD not found at $file_path_cmdrunner"
-      #       # Add steps to download or install the Plugins Manager (optional)
-      #       # Install Plugin Manager (requires `jmeter` directory)
-      #       # java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-      #     fi
-
-      #      if [[ -f "$file_path_cmdRunner" ]]; then
-      #       echo "JMeter cmdrunner Plugins Manager found at $file_path_cmdRunner"
-      #       # Add steps to install plugins, run tests, etc. (optional)
-      #     else
-      #       echo "JMeter cmdrunner Plugins Manager not found at $file_path_cmdRunner"
-      #       # Add steps to download or install the Plugins Manager (optional)
-      #     fi
-
+           
       #     if [[ -f "$file_path_pluginManger" ]]; then
       #       echo "JMeter Plugins Manager found at $file_path_pluginManger"
       #       # Add steps to install plugins, run tests, etc. (optional)
@@ -105,18 +81,11 @@ jobs:
         run: |
           # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
           # unzip jpgc-dummy-0.4.zip
-          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd
           wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
           unzip jpgc-cmd-2.2.zip
           ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults
-          echo "installation of plugin jpgc-cmd is complete"
-          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-dummy
-          # echo "installation of plugin jpgc-dummy is complete"
-          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-synthesis
-          # echo "installation of plugin jpgc-synthesis is complete"
-          # ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-filterresults
-          # echo "installation of plugin jpgc-filterresults is complete"
-          
+          echo "installation of dependency plugins is completed"
+               
 
       - name: Copy unziped file lib/cmdrunner-2.2.jar to apache-jmeter-5.6.2/lib
         run: |
@@ -146,32 +115,17 @@ jobs:
       - name: Convert JTL to CSV
         run: |
           ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
-
-      # - name: Check for JMeter results.csv
-      #   run: |
-      #     # Replace placeholders with actual paths based on your environment
-      #     file_path_results_csv="./apache-jmeter-5.6.2/bin/results.csv"
-
-      #      if [[ -f "$file_path_results_csv" ]]; then
-      #       echo "JMeter CSV found at $file_path_results_csv"
-      #       # Add steps to install plugins, run tests, etc. (optional)
-      #     else
-      #       echo "JMeter CSV not found at $file_path_results_csv"
-      #       # Add steps to download or install the Plugins Manager (optional)
-      #     fi
-     
-
+       
       - name: Analyze "error %" column
         run: |
           awk -F, '{ if ($9 > 2) { print "Error percentage exceeds 2% for request: " $2 } }' results.csv > errors.txt
 
       - name: Check JMeter bin directory files to check results csv and errors txt files 
         run: |
-          ls
-          
+          ls   
           
       - name: Upload Results (Optional)
         uses: actions/upload-artifact@v3
         with:
           name: jmeter-results
-          path: results.csv, errors.txt
+          path: ./results.csv, ./errors.txt
