@@ -119,6 +119,7 @@ jobs:
       - name: Create a error text file and Check results csv and errors txt files 
         run: |
           # awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
+          line_count=$(sed '/^$/d' results.csv | wc -l)
           awk -F, ' {  if ( ($10 +10 > 5 + 10) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
           ls   
           
