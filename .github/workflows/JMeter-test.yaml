@@ -146,7 +146,7 @@ jobs:
           echo "line_count after deleting last line --- " $line_count
           # Count errors and save to variable
           # error_count=$(awk -F, '{ if ($10 > 2 && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
-          error_count=$(awk -F, 'gsub(/\.[0-9]+%/, G_DECIMAL_POINT, $10) { if ( $10+10 > 5+10 && $1 ~ '/Transaction/' && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
+          error_count=$(awk -F, 'gsub(/\.[0-9]+%/, "", $10) { if ( $10+10 > 5+10 && $1 ~ '/Transaction/' && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
           echo "Total Transactions failure count is $error_count with error percentage > 5 %"       
           
           # Check if there are any errors
