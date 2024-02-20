@@ -1,161 +1,164 @@
 on:
   push:
     branches: [ main ]
-     
+    
 jobs:
   test-Jmeter-Pipeline:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v3   
 
-      - name: Install JMeter
-        run: |
-          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.2.zip
-          unzip apache-jmeter-5.6.2.zip
-          cd apache-jmeter-5.6.2/bin
+  
+
+    - name: Install JMeter
+      run: |
+            # wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.2.zip
+            wget https://archive.apache.org/dist/jmeter/binaries/${{vars.jmeter_version}}.zip
+            unzip apache-jmeter-5.6.2.zip
+            cd apache-jmeter-5.6.2/bin
           
-      - name: Check JMeter Installation Path
-        run: |
-          # Search for the jmeter executable in common locations
-          JMETER_PATHS=(
-              "/usr/share/apache-jmeter-5.6.2/bin/jmeter"
-              "/usr/local/share/apache-jmeter-5.6.2/bin/jmeter"
-              "./apache-jmeter-5.6.2/bin/jmeter"  # Replace with your custom path if applicable
-            )
+    - name: Check JMeter Installation Path
+      run: |
+            # Search for the jmeter executable in common locations
+            JMETER_PATHS=(
+                "/usr/share/apache-jmeter-5.6.2/bin/jmeter"
+                "/usr/local/share/apache-jmeter-5.6.2/bin/jmeter"
+                "./apache-jmeter-5.6.2/bin/jmeter"  # Replace with your custom path if applicable
+              )
 
-          # Iterate through potential paths and verify existence
-          for path in "${JMETER_PATHS[@]}"; do
-              if [[ -f "$path" ]]; then
-                echo "JMeter found at: $path"
-                exit 0  # Exit successfully if found
-              fi
-            done
-
-            # If not found in any location, exit with an error
-          echo "JMeter installation path not found. Please check your configuration."
-          exit 1
-
-      - name: Download and Install cmdrunner-2.3.jar
-        run: |
-              if [[ "5.6.2" > "5.3.0" ]]; then
-                # curl -O https://jmeter-plugins.org/get/
-                cd ./apache-jmeter-5.6.2/lib
-                curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
-                # cd ./apache-jmeter-5.6.2/lib
-                # curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
-              fi          
-    
-
-      - name: Download and Install Plugin Manager (Optional)
-        run: |
-          # Download JAR (skip if Plugin Manager already installed)
-          if [[ ! -f "./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar" ]]; then
-            cd ./apache-jmeter-5.6.2/lib/ext
-            curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
-            echo "plugin Manager installed successfully"
-          fi
-
-      - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
-        run: |
-          java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-              # if [[ "5.6.2" > "5.3.0" ]]; then
-              #    java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
-              # fi
-          echo "PluginsManagerCMD.sh installed successfullyy"
- 
-                
-      # - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
-      #   run: |
-      #     # Replace placeholders with actual paths based on your environment
-      #     file_path_pluginManger="./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar"
-           
-      #     if [[ -f "$file_path_pluginManger" ]]; then
-      #       echo "JMeter Plugins Manager found at $file_path_pluginManger"
-      #       # Add steps to install plugins, run tests, etc. (optional)
-      #     else
-      #       echo "JMeter Plugins Manager not found at $file_path_pluginManger"
-      #       # Add steps to download or install the Plugins Manager (optional)       
-      #     fi
-       
-      - name: Download jpgc-dummy,jpgc-cmd Plugin
-        run: |
-          # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
-          # unzip jpgc-dummy-0.4.zip
-          wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
-          unzip jpgc-cmd-2.2.zip
-          ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults
-          echo "installation of dependency plugins is completed"
-               
-
-      - name: Copy unziped file lib/cmdrunner-2.2.jar to apache-jmeter-5.6.2/lib
-        run: |
-          ls
-          cp ./lib/cmdrunner-2.2.jar ./apache-jmeter-5.6.2/lib/
-          
-     
-      - name: Copy Test Files to Jmeter bin folder
-        run: |
-          cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
-
-      - name: Run Test Plan
-        run: |
-          ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl 
+            # Iterate through potential paths and verify existence
+            for path in "${JMETER_PATHS[@]}"; do
+                if [[ -f "$path" ]]; then
+                  echo "JMeter found at: $path"
+                  exit 0  # Exit successfully if found
+                fi
+              done
+  
+              # If not found in any location, exit with an error
+            echo "JMeter installation path not found. Please check your configuration."
+            exit 1
+  
+    - name: Download and Install cmdrunner-2.3.jar
+      run: |
+                if [[ "5.6.2" > "5.3.0" ]]; then
+                  # curl -O https://jmeter-plugins.org/get/
+                  cd ./apache-jmeter-5.6.2/lib
+                  curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
+                  # cd ./apache-jmeter-5.6.2/lib
+                  # curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
+                fi          
       
-      # - name: Check JMeter bin directory files
-      #   run: |
-      #     ls 
-          # ls -l ./apache-jmeter-5.6.2/bin/
-      #     echo "Next bin directory"
-      #     ls -l ./apache-jmeter-5.6.2/lib/
-      #     echo "Next lib directory"
-      #     ls -l ./apache-jmeter-5.6.2/lib/ext/
-      #     echo "Next lib-ext directory"
-
-
-      - name: Convert JTL to CSV
-        run: |
-          ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
-
-      - name: Create a error text file and Check results csv and errors txt files 
-        run: |
-          # awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
-          line_count=$(sed '/^$/d' results.csv | wc -l)
-          awk -F, ' {  if ( ($10 +10 > 5 + 10) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
-          ls   
-          
-      - name: Read Text File Using cat
-        run: |
-          cat errors.txt
-
-      - name: Read csv File Using cat
-        run: |
-          cat results.csv
-
-      - name: Upload Results (Optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-results
-          # path: ./results.csv, /errors.txt
-          path: ./results.csv
-
+  
+    - name: Download and Install Plugin Manager (Optional)
+      run: |
+            # Download JAR (skip if Plugin Manager already installed)
+            if [[ ! -f "./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar" ]]; then
+              cd ./apache-jmeter-5.6.2/lib/ext
+              curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
+              echo "plugin Manager installed successfully"
+            fi
+  
+    - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
+      run: |
+            java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+                # if [[ "5.6.2" > "5.3.0" ]]; then
+                #    java -cp ./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+                # fi
+            echo "PluginsManagerCMD.sh installed successfullyy"
+   
+                  
+        # - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
+        #   run: |
+        #     # Replace placeholders with actual paths based on your environment
+        #     file_path_pluginManger="./apache-jmeter-5.6.2/lib/ext/jmeter-plugins-manager-1.10.jar"
+             
+        #     if [[ -f "$file_path_pluginManger" ]]; then
+        #       echo "JMeter Plugins Manager found at $file_path_pluginManger"
+        #       # Add steps to install plugins, run tests, etc. (optional)
+        #     else
+        #       echo "JMeter Plugins Manager not found at $file_path_pluginManger"
+        #       # Add steps to download or install the Plugins Manager (optional)       
+        #     fi
+         
+    - name: Download jpgc-dummy,jpgc-cmd Plugin
+      run: |
+            # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
+            # unzip jpgc-dummy-0.4.zip
+            wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
+            unzip jpgc-cmd-2.2.zip
+            ./apache-jmeter-5.6.2/bin/PluginsManagerCMD.sh install jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults
+            echo "installation of dependency plugins is completed"
+                 
+  
+    - name: Copy unziped file lib/cmdrunner-2.2.jar to apache-jmeter-5.6.2/lib
+      run: |
+            ls
+            cp ./lib/cmdrunner-2.2.jar ./apache-jmeter-5.6.2/lib/
+            
        
-      - name: Analyze "error %" column from CSV file, based on the % condition deceiding the Pipeline staus [Success (bydefault), Failure] 
-        run: |
-          # deleting the last line and counting the total number of transaction exceeding failure more then 2%
-          line_count=$(sed '/^$/d' results.csv | wc -l)
-          echo "line_count after deleting last line --- " $line_count
-          # Count errors and save to variable
-          # error_count=$(awk -F, '{ if ($10 > 2 && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
-          error_count=$(awk -F, 'gsub(/\.[0-9]+%/, "", $10) { if ( $10+10 > 5+10 && $1 ~ '/Transaction/' && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
-          echo "Total Transactions failure count is $error_count with error percentage > 5 %"       
-          
-          # Check if there are any errors
-          if [[ $error_count -gt 0 ]]; then
-            echo "Error percentage exceeds 5% for $error_count Transactions. Failing pipeline...!"
-            exit 1  # Set exit code to indicate failure
-          else
-            echo "No errors exceeding 5% found."
-          fi
+    - name: Copy Test Files to Jmeter bin folder
+      run: |
+            cp ./DemoTest.jmx ./apache-jmeter-5.6.2/bin/
+  
+    - name: Run Test Plan
+      run: |
+            ./apache-jmeter-5.6.2/bin/jmeter -n -t ./apache-jmeter-5.6.2/bin/DemoTest.jmx -l results.jtl 
+        
+        # - name: Check JMeter bin directory files
+        #   run: |
+        #     ls 
+            # ls -l ./apache-jmeter-5.6.2/bin/
+        #     echo "Next bin directory"
+        #     ls -l ./apache-jmeter-5.6.2/lib/
+        #     echo "Next lib directory"
+        #     ls -l ./apache-jmeter-5.6.2/lib/ext/
+        #     echo "Next lib-ext directory"
+  
+  
+    - name: Convert JTL to CSV
+      run: |
+            ./apache-jmeter-5.6.2/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+  
+    - name: Create a error text file and Check results csv and errors txt files 
+      run: |
+            # awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
+            line_count=$(sed '/^$/d' results.csv | wc -l)
+            awk -F, ' {  if ( ($10 +10 > 5 + 10) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
+            ls   
+            
+    - name: Read Text File Using cat
+      run: |
+            cat errors.txt
+  
+    - name: Read csv File Using cat
+      run: |
+            cat results.csv
+  
+    - name: Upload Results (Optional)
+      uses: actions/upload-artifact@v3
+      with:
+            name: jmeter-results
+            # path: ./results.csv, /errors.txt
+            path: ./results.csv
+  
+         
+    - name: Analyze "error %" column from CSV file, based on the % condition deceiding the Pipeline staus [Success (bydefault), Failure] 
+      run: |
+            # deleting the last line and counting the total number of transaction exceeding failure more then 2%
+            line_count=$(sed '/^$/d' results.csv | wc -l)
+            echo "line_count after deleting last line --- " $line_count
+            # Count errors and save to variable
+            # error_count=$(awk -F, '{ if ($10 > 2 && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
+            error_count=$(awk -F, 'gsub(/\.[0-9]+%/, "", $10) { if ( $10+10 > 5+10 && $1 ~ '/Transaction/' && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
+            echo "Total Transactions failure count is $error_count with error percentage > 5 %"       
+            
+            # Check if there are any errors
+            if [[ $error_count -gt 0 ]]; then
+              echo "Error percentage exceeds 5% for $error_count Transactions. Failing pipeline...!"
+              exit 1  # Set exit code to indicate failure
+            else
+              echo "No errors exceeding 5% found."
+            fi
                 
       
 
