@@ -5,31 +5,26 @@ on:
 jobs:
   test-Jmeter-Pipeline:
     env:
-      jmeter_versionn: "apache-jmeter-5.6.2"
-        # required: true
-        # default: "5.6.2"
+      jmeter_version: "apache-jmeter-5.6.2"
         
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v3
 
-    # - env:
-    #    JMETER_VERSIONN: "apache-jmeter-5.6.2"
-
      - name: Install JMeter
        run: |
             # wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.2.zip
-            wget https://archive.apache.org/dist/jmeter/binaries/${{vars.jmeter_version}}.zip
-            unzip ${{vars.jmeter_version}}.zip
-            cd ${{vars.jmeter_version}}/bin
+            wget https://archive.apache.org/dist/jmeter/binaries/${{env.jmeter_version}}.zip
+            unzip ${{env.jmeter_version}}.zip
+            cd ${{env.jmeter_version}}/bin
           
      - name: Check JMeter Installation Path
        run: |
             # Search for the jmeter executable in common locations
             JMETER_PATHS=(
-                "/usr/share/${{vars.jmeter_version}}/bin/jmeter"
-                "/usr/local/share/${{vars.jmeter_version}}/bin/jmeter"
-                "./${{vars.jmeter_version}}/bin/jmeter"  # Replace with your custom path if applicable
+                "/usr/share/${{env.jmeter_version}}/bin/jmeter"
+                "/usr/local/share/${{env.jmeter_version}}/bin/jmeter"
+                "./${{env.jmeter_version}}/bin/jmeter"  # Replace with your custom path if applicable
               )
 
             # Iterate through potential paths and verify existence
@@ -50,7 +45,7 @@ jobs:
                   # curl -O https://jmeter-plugins.org/get/
                   cd ./${{env.jmeter_versionn}}/lib
                   curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
-                  # cd ./${{vars.jmeter_version}}/lib
+                  # cd ./${{env.jmeter_version}}/lib
                   # curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
                 # fi          
       
@@ -58,22 +53,22 @@ jobs:
      - name: Download and Install Plugin Manager (Optional)
        run: |
             # Download JAR (skip if Plugin Manager already installed)
-            if [[ ! -f "./${{vars.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar" ]]; then
-              cd ./${{vars.jmeter_version}}/lib/ext
+            if [[ ! -f "./${{env.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar" ]]; then
+              cd ./${{env.jmeter_version}}/lib/ext
               curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.10/jmeter-plugins-manager-1.10.jar
               echo "plugin Manager installed successfully"
             fi
   
      - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
        run: |
-            java -cp ./${{vars.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
+            java -cp ./${{env.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
             echo "PluginsManagerCMD.sh installed successfullyy"
    
                   
         # - name: Check for JMeter PluginsManagerCMD.sh and cmdrunner2.2
         #   run: |
         #     # Replace placeholders with actual paths based on your environment
-        #     file_path_pluginManger="./${{vars.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar"
+        #     file_path_pluginManger="./${{env.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar"
              
         #     if [[ -f "$file_path_pluginManger" ]]; then
         #       echo "JMeter Plugins Manager found at $file_path_pluginManger"
@@ -89,11 +84,11 @@ jobs:
             # unzip jpgc-dummy-0.4.zip
             wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
             unzip jpgc-cmd-2.2.zip
-            ./${{vars.jmeter_version}}/bin/PluginsManagerCMD.sh install jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults
+            ./${{env.jmeter_version}}/bin/PluginsManagerCMD.sh install jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults
             echo "installation of dependency plugins is completed"
                  
   
-     - name: Copy unziped file lib/cmdrunner-2.2.jar to ${{vars.jmeter_version}}/lib
+     - name: Copy unziped file lib/cmdrunner-2.2.jar to ${{env.jmeter_version}}/lib
        run: |
             ls
             cp ./lib/cmdrunner-2.2.jar ./apache-jmeter-5.6.2/lib/
@@ -101,26 +96,26 @@ jobs:
        
      - name: Copy Test Files to Jmeter bin folder
        run: |
-            cp ./DemoTest.jmx ./${{vars.jmeter_version}}/bin/
+            cp ./DemoTest.jmx ./${{env.jmeter_version}}/bin/
   
      - name: Run Test Plan
        run: |
-            ./${{vars.jmeter_version}}/bin/jmeter -n -t ./${{vars.jmeter_version}}/bin/DemoTest.jmx -l results.jtl 
+            ./${{env.jmeter_version}}/bin/jmeter -n -t ./${{env.jmeter_version}}/bin/DemoTest.jmx -l results.jtl 
         
         # - name: Check JMeter bin directory files
         #   run: |
         #     ls 
-            # ls -l ./${{vars.jmeter_version}}/bin/
+            # ls -l ./${{env.jmeter_version}}/bin/
         #     echo "Next bin directory"
-        #     ls -l ./${{vars.jmeter_version}}/lib/
+        #     ls -l ./${{env.jmeter_version}}/lib/
         #     echo "Next lib directory"
-        #     ls -l ./${{vars.jmeter_version}}/lib/ext/
+        #     ls -l ./${{env.jmeter_version}}/lib/ext/
         #     echo "Next lib-ext directory"
   
   
      - name: Convert JTL to CSV
        run: |
-            ./${{vars.jmeter_version}}/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
+            ./${{env.jmeter_version}}/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
   
      - name: Create a error text file and Check results csv and errors txt files 
        run: |
