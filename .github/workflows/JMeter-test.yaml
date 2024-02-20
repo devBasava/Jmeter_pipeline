@@ -4,22 +4,27 @@ on:
     
 jobs:
   test-Jmeter-Pipeline:
-   runs-on: ubuntu-latest
-   steps:
-    - uses: actions/checkout@v3
+    env:
+      jmeter_versionn: "apache-jmeter-5.6.2"
+        # required: true
+        # default: "5.6.2"
+        
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v3
 
     # - env:
     #    JMETER_VERSIONN: "apache-jmeter-5.6.2"
 
-    - name: Install JMeter
-      run: |
+     - name: Install JMeter
+       run: |
             # wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.2.zip
             wget https://archive.apache.org/dist/jmeter/binaries/${{vars.jmeter_version}}.zip
             unzip ${{vars.jmeter_version}}.zip
             cd ${{vars.jmeter_version}}/bin
           
-    - name: Check JMeter Installation Path
-      run: |
+     - name: Check JMeter Installation Path
+       run: |
             # Search for the jmeter executable in common locations
             JMETER_PATHS=(
                 "/usr/share/${{vars.jmeter_version}}/bin/jmeter"
@@ -39,19 +44,19 @@ jobs:
             echo "JMeter installation path not found. Please check your configuration."
             exit 1
   
-    - name: Download and Install cmdrunner-2.3.jar
-      run: |
+     - name: Download and Install cmdrunner-2.3.jar
+       run: |
                 # if [[ "5.6.2" > "5.3.0" ]]; then
                   # curl -O https://jmeter-plugins.org/get/
-                  cd ./${{vars.jmeter_version}}/lib
+                  cd ./${{env.jmeter_versionn}}/lib
                   curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.3/cmdrunner-2.3.jar
                   # cd ./${{vars.jmeter_version}}/lib
                   # curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar
                 # fi          
       
   
-    - name: Download and Install Plugin Manager (Optional)
-      run: |
+     - name: Download and Install Plugin Manager (Optional)
+       run: |
             # Download JAR (skip if Plugin Manager already installed)
             if [[ ! -f "./${{vars.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar" ]]; then
               cd ./${{vars.jmeter_version}}/lib/ext
@@ -59,8 +64,8 @@ jobs:
               echo "plugin Manager installed successfully"
             fi
   
-    - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
-      run: |
+     - name: Install JMeter Plugin Manager using PluginsManagerCMD.sh
+       run: |
             java -cp ./${{vars.jmeter_version}}/lib/ext/jmeter-plugins-manager-1.10.jar org.jmeterplugins.repository.PluginManagerCMDInstaller
             echo "PluginsManagerCMD.sh installed successfullyy"
    
@@ -78,8 +83,8 @@ jobs:
         #       # Add steps to download or install the Plugins Manager (optional)       
         #     fi
          
-    - name: Download jpgc-dummy,jpgc-cmd Plugin
-      run: |
+     - name: Download jpgc-dummy,jpgc-cmd Plugin
+       run: |
             # wget https://jmeter-plugins.org/files/packages/jpgc-dummy-0.4.zip
             # unzip jpgc-dummy-0.4.zip
             wget https://jmeter-plugins.org/files/packages/jpgc-cmd-2.2.zip
@@ -88,18 +93,18 @@ jobs:
             echo "installation of dependency plugins is completed"
                  
   
-    - name: Copy unziped file lib/cmdrunner-2.2.jar to ${{vars.jmeter_version}}/lib
-      run: |
+     - name: Copy unziped file lib/cmdrunner-2.2.jar to ${{vars.jmeter_version}}/lib
+       run: |
             ls
             cp ./lib/cmdrunner-2.2.jar ./apache-jmeter-5.6.2/lib/
             
        
-    - name: Copy Test Files to Jmeter bin folder
-      run: |
+     - name: Copy Test Files to Jmeter bin folder
+       run: |
             cp ./DemoTest.jmx ./${{vars.jmeter_version}}/bin/
   
-    - name: Run Test Plan
-      run: |
+     - name: Run Test Plan
+       run: |
             ./${{vars.jmeter_version}}/bin/jmeter -n -t ./${{vars.jmeter_version}}/bin/DemoTest.jmx -l results.jtl 
         
         # - name: Check JMeter bin directory files
@@ -113,35 +118,35 @@ jobs:
         #     echo "Next lib-ext directory"
   
   
-    - name: Convert JTL to CSV
-      run: |
+     - name: Convert JTL to CSV
+       run: |
             ./${{vars.jmeter_version}}/bin/JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl results.jtl --plugin-type AggregateReport
   
-    - name: Create a error text file and Check results csv and errors txt files 
-      run: |
+     - name: Create a error text file and Check results csv and errors txt files 
+       run: |
             # awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
             line_count=$(sed '/^$/d' results.csv | wc -l)
             awk -F, ' {  if ( ($10 +10 > 5 + 10) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
             ls   
             
-    - name: Read Text File Using cat
-      run: |
+     - name: Read Text File Using cat
+       run: |
             cat errors.txt
   
-    - name: Read csv File Using cat
-      run: |
+     - name: Read csv File Using cat
+       run: |
             cat results.csv
   
-    - name: Upload Results (Optional)
-      uses: actions/upload-artifact@v3
-      with:
+     - name: Upload Results (Optional)
+       uses: actions/upload-artifact@v3
+       with:
             name: jmeter-results
             # path: ./results.csv, /errors.txt
             path: ./results.csv
   
          
-    - name: Analyze "error %" column from CSV file, based on the % condition deceiding the Pipeline staus [Success (bydefault), Failure] 
-      run: |
+     - name: Analyze "error %" column from CSV file, based on the % condition deceiding the Pipeline staus [Success (bydefault), Failure] 
+       run: |
             # deleting the last line and counting the total number of transaction exceeding failure more then 2%
             line_count=$(sed '/^$/d' results.csv | wc -l)
             echo "line_count after deleting last line --- " $line_count
