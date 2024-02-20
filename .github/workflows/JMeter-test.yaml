@@ -151,10 +151,10 @@ jobs:
           
           # Check if there are any errors
           if [[ $error_count -gt 0 ]]; then
-            echo "Error percentage exceeds 2% for $error_count Transactions. Failing pipeline...!"
+            echo "Error percentage exceeds 5% for $error_count Transactions. Failing pipeline...!"
             exit 1  # Set exit code to indicate failure
           else
-            echo "No errors exceeding 2% found."
+            echo "No errors exceeding 5% found."
           fi
                 
       
