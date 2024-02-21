@@ -6,6 +6,7 @@ jobs:
   test-Jmeter-Pipeline:
     env:
       jmeter_version: "apache-jmeter-5.6.2"
+      benchmark_percentage: 5
         
     runs-on: ubuntu-latest
     steps:
@@ -119,9 +120,8 @@ jobs:
   
      - name: Create a error text file and Check results csv and errors txt files 
        run: |
-            # awk -F, '{ if ($10 > 2.00) { print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
             line_count=$(sed '/^$/d' results.csv | wc -l)
-            awk -F, ' {  if ( (($10 +10) >= (5 + 10)) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
+            awk -F, ' {  if ( (($10 +10) >= (${{env.benchmark_percentage}} + 10)) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds 2% for request: " $1,", " $10 } }' results.csv > errors.txt
             ls   
             
      - name: Read Text File Using cat
@@ -142,17 +142,17 @@ jobs:
          
      - name: Analyze "error %" column from CSV file, based on the % condition deceiding the Pipeline staus [Success (bydefault), Failure] 
        run: |
-            # deleting the last line and counting the total number of transaction exceeding failure more then 2%
+            # deleting the last line and counting the total number of transaction exceeding failure more then ${{env.benchmark_percentage}}%
             line_count=$(sed '/^$/d' results.csv | wc -l)
             echo "line_count after deleting last line --- " $line_count
             # Count errors and save to variable
             # error_count=$(awk -F, '{ if ($10 > 2 && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
-            error_count=$(awk -F, 'gsub(/\.[0-9]+%/, "", $10) { if ( ($10+10) >= (5+10) && $1 ~ '/Transaction/' && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
-            echo "Total Transactions failure count is $error_count with error percentage > 5 %"       
+            error_count=$(awk -F, 'gsub(/\.[0-9]+%/, "", $10) { if ( ($10+10) >= (${{env.benchmark_percentage}}+10) && $1 ~ '/Transaction/' && NR < '$line_count' && NR > 1) { print NR } }' results.csv | wc -l)
+            echo "Total Transactions failure count is $error_count with error percentage > ${{env.benchmark_percentage}} %"       
             
             # Check if there are any errors
             if [[ $error_count -gt 0 ]]; then
-              echo "Error percentage exceeds 5% for $error_count Transactions. Failing pipeline...!"
+              echo "Error percentage exceeds ${{env.benchmark_percentage}}% for $error_count Transactions. Failing pipeline...!"
               exit 1  # Set exit code to indicate failure
             else
               echo "No errors exceeding 5% found."
