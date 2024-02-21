@@ -123,7 +123,7 @@ jobs:
      - name: Create a error text file and Check results csv and errors txt files 
        run: |
             line_count=$(sed '/^$/d' results.csv | wc -l)
-            awk -F, ' {  if ( (($10 +10) >= (${{env.benchmark_percentage}} + 10)) && ($1 ~ '/${{env.pattern_toCheck}}/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds ${{env.benchmark_percentage}}% for request: " $1,", " $10 } }' results.csv > errors.txt
+            awk -F, ' {  if ( (($10 +10) >= (${{env.benchmark_percentage}} + 10)) && ($1 ~ '/Transaction/') && (NR < '$line_count') && (NR > 1) ){ print "Error percentage exceeds ${{env.benchmark_percentage}}% for request: " $1,", " $10 } }' results.csv > errors.txt
             ls   
             
      - name: Read Text File Using cat
