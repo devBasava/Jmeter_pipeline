@@ -99,11 +99,11 @@ jobs:
        
      - name: Copy Test Files to Jmeter bin folder
        run: |
-            cp ./DemoTest.jmx ./${{env.jmeter_version}}/bin/
+            cp ./DemoTest-03JAN2025.jmx ./${{env.jmeter_version}}/bin/
   
      - name: Run Test Plan
        run: |
-            ./${{env.jmeter_version}}/bin/jmeter -n -t ./${{env.jmeter_version}}/bin/DemoTest.jmx -l results.jtl 
+            ./${{env.jmeter_version}}/bin/jmeter -n -t ./${{env.jmeter_version}}/bin/DemoTest-03JAN2025.jmx -l results.jtl 
         
         # - name: Check JMeter bin directory files
         #   run: |
