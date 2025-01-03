@@ -10,7 +10,8 @@ jobs:
       jmeter_plugins: "jpgc-cmd,jpgc-dummy,jpgc-synthesis,jpgc-filterresults"
       pattern_toCheck: "Transaction"
         
-    runs-on: ubuntu-latest
+   # runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Update to ubuntu-24.04
     steps:
      - uses: actions/checkout@v4
 
