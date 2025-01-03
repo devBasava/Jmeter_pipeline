@@ -135,7 +135,7 @@ jobs:
             cat results.csv
   
      - name: Upload Results (Optional)
-       uses: actions/upload-artifact@v3
+       uses: actions/upload-artifact@v4
        with:
             name: jmeter-results
             # path: ./results.csv, /errors.txt
